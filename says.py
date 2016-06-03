@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 from zhihu_oauth import ZhihuClient
+from sklearn.feature_extraction.text import CountVectorizer
 import jieba
 import sys
 import csv
@@ -10,6 +11,15 @@ sys.setdefaultencoding('utf-8')
 jieba.load_userdict("dict.txt")
 writer = csv.writer(file('says.csv', 'wb'), delimiter='|')
 writer.writerow(['sayid', 'ans', 'uid', 'content'])
+stopwords = None
+
+def load_stopwords():
+	stopwordStr = open('stopword.txt', 'r').read()
+	global stopwords
+	stopwords = stopwordStr.split('\n')
+
+def delete_stopword(tokenizedContent):
+	return [word for word in tokenizedContent if word not in stopwords]
 
 def login(username, password):
     client = ZhihuClient()
@@ -19,8 +29,9 @@ def login(username, password):
 def get_says(item, ans):
     sayid = item.id
     uid = item.author.id
-    tokenized_content = jieba.cut(item.content)
-    content = ' '.join(tokenized_content).encode('utf-8')
+    tokenizedContent = jieba.cut(item.content)
+    noStopwordsContent = delete_stopword(tokenizedContent)
+    content = ' '.join(noStopwordsContent).encode('utf-8')
     writer.writerow([sayid, ans, uid, content])
 
 def get_says_from_comments(item):
@@ -36,9 +47,9 @@ def get_says_from_question(question):
     sayid = question.id
     uid = 0
     ans = 0
-    tokenized_title = jieba.cut(question.title)
-    tokenized_detail = jieba.cut(question.detail)
-    content = ' '.join(tokenized_title) + ' ' + ' '.join(tokenized_detail)
+    title = delete_stopword(jieba.cut(question.title))
+    detail = delete_stopword(jieba.cut(question.detail))
+    content = ' '.join(title) + ' ' + ' '.join(detail)
     content = content.encode('utf-8')
     writer.writerow([sayid, ans, uid, content])
     get_says_from_comments(question)
@@ -50,5 +61,6 @@ if __name__ == '__main__':
     questionID = int(sys.argv[3])
     client = login(username, password)
     if client:
+    	load_stopwords()
         question = client.question(questionID)
         get_says_from_question(question)
