@@ -1,13 +1,14 @@
 # encoding: utf-8
 
 from zhihu_oauth import ZhihuClient
+import jieba
 import sys
 import csv
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
-writer = csv.writer(file('says.csv', 'wb'), quotechar='|')
+jieba.load_userdict("dict.txt")
+writer = csv.writer(file('says.csv', 'wb'), delimiter='|')
 writer.writerow(['sayid', 'ans', 'uid', 'content'])
 
 def login(username, password):
@@ -18,7 +19,8 @@ def login(username, password):
 def get_says(item, ans):
     sayid = item.id
     uid = item.author.id
-    content = item.content
+    tokenized_content = jieba.cut(item.content)
+    content = ' '.join(tokenized_content).encode('utf-8')
     writer.writerow([sayid, ans, uid, content])
 
 def get_says_from_comments(item):
@@ -34,7 +36,10 @@ def get_says_from_question(question):
     sayid = question.id
     uid = 0
     ans = 0
-    content = question.title + question.detail
+    tokenized_title = jieba.cut(question.title)
+    tokenized_detail = jieba.cut(question.detail)
+    content = ' '.join(tokenized_title) + ' ' + ' '.join(tokenized_detail)
+    content = content.encode('utf-8')
     writer.writerow([sayid, ans, uid, content])
     get_says_from_comments(question)
     get_says_from_answers(question)

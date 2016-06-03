@@ -8,18 +8,13 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 users = set()
-writer = csv.writer(file('user.csv', 'wb'), quotechar='|')
+writer = csv.writer(file('user.csv', 'wb'), delimiter='|',)
 writer.writerow(['uid', 'name', 'gender', 'business', 'school', 'major',
                  'company', 'job', 'location'])
 
 def login(username, password):
     client = ZhihuClient()
     client.login_in_terminal(username, password)
-    # if client.is_login():
-    #     me = client.me()
-    #     print me.name, '成功登陆！'
-    # else:
-    #     print '登陆失败!'
     return client
 
 def is_in_users(person):
