@@ -1,16 +1,17 @@
 # encoding: utf-8
 
 from zhihu_oauth import ZhihuClient
-from sklearn.feature_extraction.text import CountVectorizer
 import jieba
 import sys
 import csv
+import re
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 jieba.load_userdict("dict.txt")
 writer = csv.writer(file('says.csv', 'wb'), delimiter='|')
 writer.writerow(['sayid', 'ans', 'uid', 'content'])
+pattern = re.compile(r'[^a-zA-Z0-9]')
 stopwords = None
 
 def load_stopwords():
@@ -19,7 +20,7 @@ def load_stopwords():
 	stopwords = stopwordStr.split('\n')
 
 def delete_stopword(tokenizedContent):
-	return [word for word in tokenizedContent if word not in stopwords]
+	return [word for word in tokenizedContent if pattern.search(word) and word not in stopwords]
 
 def login(username, password):
     client = ZhihuClient()

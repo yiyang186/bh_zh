@@ -15,11 +15,11 @@ if __name__ == '__main__':
     saysCorpus = saysDf['content'].dropna().values
     says = ' '.join(list(saysCorpus)).decode('utf-8')
     wordcloud = WordCloud(font_path='msyh.ttf', background_color="black",
-                          margin=5, width=2000, height=1500)
+                          margin=5, width=5000, height=1500)
     wc = wordcloud.generate(says)
     plt.imshow(wc)
     plt.axis("off")
-    plt.savefig('wordcloud.png', dpi=200)
+    plt.savefig('wordcloud.png', dpi=300)
     plt.show()
     # vectorizer = CountVectorizer()
     # X = vectorizer.fit_transform(corpus)
