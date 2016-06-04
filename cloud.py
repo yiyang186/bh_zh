@@ -1,11 +1,9 @@
 # encoding: utf-8
 
-#from sklearn.feature_extraction.text import CountVectorizer
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import pandas as pd
 import sys
-import csv
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -21,7 +19,3 @@ if __name__ == '__main__':
     plt.axis("off")
     plt.savefig('wordcloud.png', dpi=300)
     plt.show()
-    # vectorizer = CountVectorizer()
-    # X = vectorizer.fit_transform(corpus)
-    # wordsCount = X.sum(axis=0)
-    # words = vectorizer.get_feature_names()
