@@ -24,6 +24,7 @@ if __name__ == '__main__':
     words = vectorizer.get_feature_names()
 
     wc = pd.DataFrame({'word': words, 'count': wordsFreq})
+    print wc.shape
     soredwc = wc.sort_values(by='count', ascending=False)
     topwc = soredwc.head(num)
 
