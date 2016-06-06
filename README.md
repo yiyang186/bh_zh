@@ -38,23 +38,23 @@
 - 一切可视化做脱敏处理
 
 ##用法
-1. 爬取某问题下的相关用户信息
+- 爬取某问题下的相关用户信息
 ```
 python user.py username password question_num
 ```
-username: 你的知乎用户名，如+86130xxxxxxxx
-password：你的知乎密码
-question_num: 知乎问题号，该问题网页结尾处的那一串数字
+ - username: 你的知乎用户名，如+86130xxxxxxxx
+ - password：你的知乎密码
+ - question_num: 知乎问题号，该问题网页结尾处的那一串数字
 
-2. 爬去某问题下的回答和评论并完成分词去停用词的操作
+- 爬去某问题下的回答和评论并完成分词去停用词的操作
 ```
 python says.py username password question_num
 ```
 
-3. 统计top n词汇的词频
+- 统计top n词汇的词频
 ```
 python freq.py n
 ```
-n: 前n个出现频率高的词
+ - n: 前n个出现频率高的词
 
-4. 其他并未指定参数，lsa,聚类的参数需要自己设置
+- 其他并未指定参数，lsa,聚类的参数需要自己设置
