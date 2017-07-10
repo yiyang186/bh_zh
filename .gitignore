@@ -1,5 +1,4 @@
-*.csv
-*.JPG
 *.ttf
-*.png
 *.xlsx
+*.pyc
+*.csv
